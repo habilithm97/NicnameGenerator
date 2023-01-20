@@ -7,12 +7,12 @@
     android:background="#FFB6C1">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
 
-        android:text="랜덤 닉네임 생성기"
+        android:text="두 글자 닉네임 생성기"
         android:textSize="30sp"
         android:textStyle="bold"
 
@@ -21,50 +21,37 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
-
-    <EditText
-        android:id="@+id/edt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:gravity="center"
-
-        android:hint="글자수를 입력하세요. (최대 10자) "
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintVertical_bias="0.3" />
 
     <Button
         android:id="@+id/generatorBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
 
         android:text="생성하기"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textStyle="bold"
 
         android:background="@drawable/custom_btn"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt" />
+        app:layout_constraintTop_toBottomOf="@+id/tv" />
 
     <TextView
         android:id="@+id/resultTv"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
 
-        android:text="닉네임"
+        android:text="닉넴"
         android:textSize="80sp"
 
         android:background="@drawable/custom_tv"
