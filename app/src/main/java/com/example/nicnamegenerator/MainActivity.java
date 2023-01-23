@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.kimkevin.hangulparser.HangulParser;
+import com.github.kimkevin.hangulparser.HangulParserException;
+
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     final static String[] CHO = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"};
     final static String[] JOONG = {"ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"};
@@ -27,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         generatorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultTv.setText(null);
                 generateNicname();
             }
         });
@@ -36,25 +40,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void generateNicname() {
-        // 테스트_한글 자모 분리 -> 조합은 반대로
-        String str = "하빌리즘";
+        resultTv.setText(null);
+        assembleJamo();
+    }
 
-        for(int i = 0; i < str.length(); i++) {
-            char uniVal = str.charAt(i); // 자바는 하나의 유니코드값을 저장하기 위해 2byte 크기인 char 타입을 제공함
+    public void assembleJamo() {
+        try {
+            List<String> jamoList = HangulParser.disassemble("분리");
 
-            // 한글일 경우에만 시작해야 하기 때문에 0xAC00 부터 아래의 로직을 실행함
-            if(uniVal >= 0xAC00) {
-                resultTv.append(uniVal + " => ");
-                uniVal = (char)(uniVal - 0xAC00); // 현재의 한글 유니코드값에 한글 시작점을 뺌
+            jamoList.clear();
+            jamoList.add("ㅈ");
+            jamoList.add("ㅗ");
+            jamoList.add("ㅎ");
+            jamoList.add("ㅏ");
+            jamoList.add("ㅂ");
 
-                char cho = (char)(uniVal / 28 / 21);
-                char joong = (char)((uniVal) / 28 % 21);
-                char jong = (char)(uniVal % 28);
+            String hangul = HangulParser.assemble(jamoList);
+            resultTv.setText(hangul);
 
-                resultTv.append(CHO[cho] + JOONG[joong] + JONG[jong] + "\n");
-            } else {
-                resultTv.append(uniVal + " => " + uniVal);
-            }
+        } catch (HangulParserException e) {
+            e.printStackTrace();
         }
     }
 }
