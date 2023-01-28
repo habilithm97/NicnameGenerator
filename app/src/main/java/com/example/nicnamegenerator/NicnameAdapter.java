@@ -16,15 +16,17 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
     List<Nicname> nicnameList = new ArrayList<>();
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv;
+        TextView idTv, tv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            idTv = itemView.findViewById(R.id.idTv);
             tv = itemView.findViewById(R.id.tv);
         }
 
         public void setItem(Nicname item) {
+            idTv.setText(String.valueOf(item.getId()));
             tv.setText(item.getStr());
         }
     }

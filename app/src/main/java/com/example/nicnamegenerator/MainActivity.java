@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -31,8 +32,11 @@ public class MainActivity extends AppCompatActivity {
     Random joongRandom1 = new Random();
     Random jongRandom1 = new Random();
 
+    RecyclerView recyclerView;
     NicnameAdapter adapter;
     TextView resultTv;
+
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new NicnameAdapter();
         recyclerView.setAdapter(adapter);
@@ -103,8 +107,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveNicname() {
+        count++;
         String str = resultTv.getText().toString();
-        adapter.addItem(new Nicname((str)));
+        adapter.addItem(new Nicname(count, str));
         adapter.notifyDataSetChanged();
     }
 }
