@@ -43,14 +43,14 @@
     <TextView
         android:id="@+id/resultTv"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="170dp"
         android:gravity="center"
         android:layout_marginTop="30dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
 
         android:text="닉넴"
-        android:textSize="30sp"
+        android:textSize="50sp"
 
         android:background="@drawable/custom_tv"
 
@@ -58,17 +58,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/generatorBtn" />
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="35dp"
 
-        app:layout_constraintTop_toBottomOf="@+id/resultTv">
+        app:layout_constraintTop_toBottomOf="@+id/resultTv"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

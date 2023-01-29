@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     saveNicname();
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1); // recyclerView 마지막 아이템 위치로 포커스 이동
                 }
                 return true;
             }
