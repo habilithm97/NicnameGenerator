@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/generatorBtn"
+        android:id="@+id/saveBtn"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="center"
@@ -30,7 +30,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
 
-        android:text="생성하기"
+        android:text="저장하기"
         android:textSize="30sp"
         android:textStyle="bold"
 
@@ -56,7 +56,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/generatorBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/saveBtn" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -1,5 +1,7 @@
 package com.example.nicnamegenerator;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,11 @@ import java.util.List;
 
 public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHolder> {
 
-    List<Nicname> nicnameList = new ArrayList<>();
+    List<Nicname> nicnameList;
+
+    public NicnameAdapter(List<Nicname> nicnameList) {
+        this.nicnameList = nicnameList;
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView idTv, tv;
@@ -35,6 +41,7 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
     @Override
     public NicnameAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = (LayoutInflater.from(parent.getContext()).inflate(R.layout.nicname_item, parent, false));
+
         return new ViewHolder(itemView);
     }
 
@@ -46,7 +53,10 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return nicnameList.size();
+        if(nicnameList != null) {
+            return nicnameList.size();
+        }
+        return 0;
     }
 
     public void addItem(Nicname item) {
