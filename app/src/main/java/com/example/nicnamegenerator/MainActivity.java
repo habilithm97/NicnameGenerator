@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,17 +44,18 @@ public class MainActivity extends AppCompatActivity {
     List<Nicname> nicnameList;
     NicnameAdapter adapter;
     TextView resultTv;
-
+    RecyclerView recyclerView;
     int count = 0;
 
+    final String SP = "sharedPreference";
+    final String LIST = "nicname list";
+
     /*
-    final String SP = "nicnameList";
-    final String LIST = "arrayList";
     Gson gson = new GsonBuilder().create();
     SharedPreferences sp;
     SharedPreferences.Editor editor;
-    List<Nicname> list; */
-    RecyclerView recyclerView;
+    List<Nicname> list;
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +74,18 @@ public class MainActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveNicname();
-                recyclerView.scrollToPosition(adapter.getItemCount() - 1); // recyclerView 마지막 아이템 위치로 포커스 이동
+                if(resultTv.getText().toString().equals("닉네임")) {
+                    Toast.makeText(getApplicationContext(), "새 닉네임을 생성하세요. ", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveNicname();
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1); // recyclerView 마지막 아이템 위치로 포커스 이동
+                }
             }
         });
 
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new NicnameAdapter(nicnameList);
+        //adapter = new NicnameAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
@@ -133,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
         String str = resultTv.getText().toString();
         adapter.addItem(new Nicname(count, str));
         adapter.notifyDataSetChanged();
-
-        saveData();
     }
 
     @Override
@@ -145,19 +150,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveData() {
-        /*
-        SharedPreferences sp = getSharedPreferences("NicnameList", Activity.MODE_PRIVATE); // 저장소 이름 sp
+        SharedPreferences sp = getSharedPreferences(SP, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(nicnameList); // 데이터를 json으로 변환함
-        editor.putString("nicname list", json);
-        editor.apply(); */
+        String json = gson.toJson(nicnameList);
+        editor.putString(LIST, json);
+        editor.apply();
 
         /*
-        sp = getSharedPreferences(SP, 0);
-        editor = sp.edit();
-        editor.remove(LIST).apply(); // 기존에 있던 정보를 지움(초기화)
-        editor.putString(LIST, gson.toJson(nicnameList)).apply(); // ArrayList를 SP에 저장함 */
+        SharedPreferences sp = getSharedPreferences("sp", 0);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        editor.remove("list").apply(); // 기존에 있던 정보를 지움(초기화)
+        editor.putString("list", gson.toJson(nicnameList)).apply(); // ArrayList를 SP에 저장함 */
     }
 
     @Override
@@ -168,10 +173,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        /*
-        SharedPreferences sp = getSharedPreferences("NicnameList", MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences(SP, MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sp.getString("nicname list", null);
+        String json = sp.getString(LIST, null);
         // json으로 SP에 저장하는 순간 데이터가 가지고 있는 타입 정보가 모두 사라지기 때문에
         // 데이터를 복원하면서 타입 정보를 다시 부여해야 하기 위해 타입 토큰을 사용함
         Type type = new TypeToken<List<Nicname>>() {}.getType();
@@ -179,11 +183,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(nicnameList == null) {
             nicnameList = new ArrayList<>();
-        } */
+        }
 
         /*
-        sp = getSharedPreferences(SP, 0);
-        String value = sp.getString(LIST, null);
+        SharedPreferences sp = getSharedPreferences("sp", 0);
+        Gson gson = new Gson();
+        String value = sp.getString("list", null);
         if(value != null) {
             // SP에서 데이터를 가져와서 ArrayList로 변환하기
             list = gson.fromJson(value, new TypeToken<List<Nicname>>() {

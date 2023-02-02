@@ -15,10 +15,12 @@ import java.util.List;
 
 public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHolder> {
 
-    List<Nicname> nicnameList;
+    List<Nicname> mNicnameList;
+    //static List<Nicname> nicnameList = new ArrayList<>();
 
     public NicnameAdapter(List<Nicname> nicnameList) {
-        this.nicnameList = nicnameList;
+        //mNicnameList = new ArrayList<>();
+        mNicnameList = nicnameList;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -41,25 +43,24 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
     @Override
     public NicnameAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = (LayoutInflater.from(parent.getContext()).inflate(R.layout.nicname_item, parent, false));
-
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NicnameAdapter.ViewHolder holder, int position) {
-        Nicname item = nicnameList.get(position);
+        Nicname item = mNicnameList.get(position);
         holder.setItem(item);
     }
 
     @Override
     public int getItemCount() {
-        if(nicnameList != null) {
-            return nicnameList.size();
+        if(mNicnameList != null) {
+            return mNicnameList.size();
         }
         return 0;
     }
 
     public void addItem(Nicname item) {
-        nicnameList.add(item);
+        mNicnameList.add(item);
     }
 }
