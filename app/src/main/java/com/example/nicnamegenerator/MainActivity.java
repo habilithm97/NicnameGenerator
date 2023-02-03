@@ -1,6 +1,7 @@
 package com.example.nicnamegenerator;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new NicnameAdapter(nicnameList);
         //adapter = new NicnameAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL)); // 구분선 설정
         recyclerView.setAdapter(adapter);
 
         resultTv = (TextView)findViewById(R.id.resultTv);
