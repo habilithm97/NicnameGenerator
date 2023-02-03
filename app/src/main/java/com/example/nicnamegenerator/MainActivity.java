@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     List<Nicname> list;
      */
 
+    static Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(resultTv.getText().toString().equals("닉네임")) {
-                    Toast.makeText(getApplicationContext(), "새 닉네임을 생성하세요. ", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "새 닉네임을 생성하세요. ", Toast.LENGTH_SHORT).show();
+                   showToast(getApplicationContext(), "새 닉네임을 생성하세요. ");
                 } else {
                     saveNicname();
                     recyclerView.scrollToPosition(adapter.getItemCount() - 1); // recyclerView 마지막 아이템 위치로 포커스 이동
@@ -99,6 +102,15 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public static void showToast(Context context, String msg) {
+        if(toast == null) {
+            toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        } else { // 기존에 토스트 객체가 있다면 추가 생성하지 않음
+            toast.setText(msg);
+        }
+        toast.show();
     }
 
     public void generateNicname() {
