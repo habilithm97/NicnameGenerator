@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     List<Nicname> list;
      */
 
+    boolean isSelected = false;
+
     static Toast toast;
 
     @Override
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     public void saveNicname() {
         count++;
         String str = resultTv.getText().toString();
-        adapter.addItem(new Nicname(count, str));
+        adapter.addItem(new Nicname(count, str, isSelected));
         adapter.notifyDataSetChanged();
     }
 
