@@ -43,7 +43,7 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setMultipleSelection(getAdapterPosition());
+                    //setMultipleSelection(getAdapterPosition());
                 }
             });
         }
@@ -54,6 +54,7 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
         }
     }
 
+    /*
     private void setMultipleSelection(int adapterPosition) { // 다중 선택 기능
         // 반대의 값을 넣어줌
         if(mNicnameList.get(adapterPosition).isSelected()) {
@@ -62,7 +63,7 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
             mNicnameList.get(adapterPosition).setSelected(true);
         }
         notifyDataSetChanged();
-    }
+    } */
 
     @NonNull
     @Override
@@ -76,11 +77,12 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
         Nicname item = mNicnameList.get(position);
         holder.setItem(item);
 
+        /*
         if(item.isSelected()) { // 아이템 선택값에 따른 배경색 설정
             holder.itemView.setBackgroundColor(Color.parseColor("#FFCCFF")); // 선택된 상태
         } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#FFB6C1")); // 선택이 안 된 상태
-        }
+        } */
     }
 
     @Override
