@@ -18,26 +18,17 @@ import java.util.List;
 public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHolder> {
 
     List<Nicname> mNicnameList;
-    //static List<Nicname> nicnameList = new ArrayList<>();
-
-    /*
-    SparseBooleanArray booleanArray = new SparseBooleanArray(0); // position 별 선택 상태를 저장하는 구조
-    // -> 리스트뷰에서 다중 선택 시 선택한 position에 대한 정보를 보관하는 객체로서, get()을 호출해 선택된 position 값을 구함.
-    // get()은 해당 position에 값이 존재하면 true를 리턴함
-     */
 
     public NicnameAdapter(List<Nicname> nicnameList) {
-        //mNicnameList = new ArrayList<>();
         mNicnameList = nicnameList;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView idTv, tv;
+        TextView tv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            idTv = itemView.findViewById(R.id.idTv);
             tv = itemView.findViewById(R.id.tv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +40,6 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
         }
 
         public void setItem(Nicname item) {
-            idTv.setText(String.valueOf(item.getId()));
             tv.setText(item.getStr());
         }
     }

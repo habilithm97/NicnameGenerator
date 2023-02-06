@@ -51,17 +51,6 @@ public class MainActivity extends AppCompatActivity {
     NicnameAdapter adapter;
     TextView resultTv;
     RecyclerView recyclerView;
-    int count = 0;
-
-    final String SP = "sharedPreference";
-    final String LIST = "nicname list";
-
-    /*
-    Gson gson = new GsonBuilder().create();
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    List<Nicname> list;
-     */
 
     boolean isSelected = false;
 
@@ -85,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(resultTv.getText().toString().equals("닉네임")) {
-                    //Toast.makeText(getApplicationContext(), "새 닉네임을 생성하세요. ", Toast.LENGTH_SHORT).show();
                    showToast(getApplicationContext(), "새 닉네임을 생성하세요. ");
                 } else {
                     saveNicname();
@@ -96,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new NicnameAdapter(nicnameList);
-        //adapter = new NicnameAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL)); // 구분선 설정
         recyclerView.setAdapter(adapter);
@@ -160,9 +147,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveNicname() {
-        count++;
         String str = resultTv.getText().toString();
-        adapter.addItem(new Nicname(count, str, isSelected));
+        adapter.addItem(new Nicname(str, isSelected));
         adapter.notifyDataSetChanged();
     }
 
@@ -174,20 +160,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveData() {
-        /*
-        SharedPreferences sp = getSharedPreferences(SP, Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(nicnameList);
-        editor.putString(LIST, json);
-        editor.apply(); */
 
-        /*
-        SharedPreferences sp = getSharedPreferences("sp", 0);
-        SharedPreferences.Editor editor = sp.edit();
-        Gson gson = new Gson();
-        editor.remove("list").apply(); // 기존에 있던 정보를 지움(초기화)
-        editor.putString("list", gson.toJson(nicnameList)).apply(); // ArrayList를 SP에 저장함 */
     }
 
     @Override
@@ -198,32 +171,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        /*
-        SharedPreferences sp = getSharedPreferences(SP, MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sp.getString(LIST, null);
-        // json으로 SP에 저장하는 순간 데이터가 가지고 있는 타입 정보가 모두 사라지기 때문에
-        // 데이터를 복원하면서 타입 정보를 다시 부여해야 하기 위해 타입 토큰을 사용함
-        Type type = new TypeToken<List<Nicname>>() {}.getType();
-        nicnameList = gson.fromJson(json, type);
 
-        if(nicnameList == null) {
-            nicnameList = new ArrayList<>();
-        } */
-
-        /*
-        SharedPreferences sp = getSharedPreferences("sp", 0);
-        Gson gson = new Gson();
-        String value = sp.getString("list", null);
-        if(value != null) {
-            // SP에서 데이터를 가져와서 ArrayList로 변환하기
-            list = gson.fromJson(value, new TypeToken<List<Nicname>>() {
-            }.getType());
-            adapter = new NicnameAdapter(list);
-            recyclerView.setAdapter(adapter);
-        } else {
-            Toast.makeText(getApplicationContext(), "list is null", Toast.LENGTH_SHORT).show();
-        } */
     }
 
     // ItemTouchHelper : RecyclerView에서 삭제를 위한 스와이프 및 드래그 앤 드롭을 지원하는 유틸리티 클래스
@@ -242,4 +190,26 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyItemRemoved(position);
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.deleteAll:
+                DeleteAll();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void DeleteAll() {
+        nicnameList.clear();
+        adapter.notifyDataSetChanged();
+    }
 }
