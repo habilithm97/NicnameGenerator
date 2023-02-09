@@ -17,11 +17,12 @@ import java.util.List;
 
 public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHolder> {
 
-    List<Nicname> nicnameList;
+    List<Nicname> nicnameList = new ArrayList<>();
 
+    /*
     public NicnameAdapter(List<Nicname> nicnameList) {
         this.nicnameList = nicnameList;
-    }
+    } */
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv;

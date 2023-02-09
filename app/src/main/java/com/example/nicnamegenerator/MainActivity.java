@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     Random joongRandom1 = new Random();
     Random jongRandom1 = new Random();
 
-    List<Nicname> nicnameList;
+    //List<Nicname> nicnameList;
     NicnameAdapter adapter;
     TextView resultTv;
     RecyclerView recyclerView;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     static Toast toast;
 
-    int size;
+    //int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
-
-        loadData();
     }
 
     public void initView() {
@@ -84,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true); // 일정한 크기로 설정
-        nicnameList = new ArrayList<>();
-        adapter = new NicnameAdapter(nicnameList);
+        //nicnameList = new ArrayList<>();
+        //adapter = new NicnameAdapter(nicnameList);
+        adapter = new NicnameAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL)); // 구분선 설정
         recyclerView.setAdapter(adapter);
@@ -153,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.addItem(new Nicname(str, isSelected));
         adapter.notifyDataSetChanged();
 
-        size = adapter.nicnameList.size();
-        Toast.makeText(getApplicationContext(), "리스트 크기 : " + size, Toast.LENGTH_SHORT).show();
+        //size = adapter.nicnameList.size();
+        //Toast.makeText(getApplicationContext(), "리스트 크기 : " + size, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -165,10 +164,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveData() {
-        SharedPreferences sp = getSharedPreferences("sharedPreference", MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("sharedPreference", MODE_PRIVATE); // MODE_PRIVATE : 자기 앱에서만 사용하도록 설정하는 디폴트 값
         SharedPreferences.Editor editor = sp.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(nicnameList);
+        String json = gson.toJson(adapter.nicnameList);
         editor.putString("NicnameList", json);
         editor.apply();
     }
@@ -184,12 +183,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("sharedPreference", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sp.getString("NicnameList", null);
-        Type type = new TypeToken<List<Nicname>>() {}.getType();
-        nicnameList = gson.fromJson(json, type);
-
-        if(nicnameList == null) {
-            nicnameList = new ArrayList<>();
-        }
+        Type type = new TypeToken<List<Nicname>>() {}.getType(); // 타입 복구
+        adapter.nicnameList = gson.fromJson(json, type);
     }
 
     // ItemTouchHelper : RecyclerView에서 삭제를 위한 스와이프 및 드래그 앤 드롭을 지원하는 유틸리티 클래스
@@ -227,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void DeleteAll() {
-        nicnameList.clear();
+        adapter.nicnameList.clear();
         adapter.notifyDataSetChanged();
     }
 }
