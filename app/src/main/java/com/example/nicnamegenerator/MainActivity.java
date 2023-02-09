@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         loadData();
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1); // recyclerView 마지막 아이템 위치로 포커스 이동
     }
 
     public void loadData() {
