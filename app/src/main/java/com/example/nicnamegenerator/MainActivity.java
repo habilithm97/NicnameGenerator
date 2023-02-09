@@ -56,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
 
     static Toast toast;
 
+    int size;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        nicnameList = new ArrayList<>();
 
         initView();
 
@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true); // 일정한 크기로 설정
+        nicnameList = new ArrayList<>();
         adapter = new NicnameAdapter(nicnameList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL)); // 구분선 설정
@@ -150,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
         String str = resultTv.getText().toString();
         adapter.addItem(new Nicname(str, isSelected));
         adapter.notifyDataSetChanged();
+
+        size = adapter.nicnameList.size();
+        Toast.makeText(getApplicationContext(), "리스트 크기 : " + size, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -160,7 +165,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveData() {
-
+        SharedPreferences sp = getSharedPreferences("sharedPreference", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(nicnameList);
+        editor.putString("NicnameList", json);
+        editor.apply();
     }
 
     @Override
@@ -171,7 +181,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
+        SharedPreferences sp = getSharedPreferences("sharedPreference", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sp.getString("NicnameList", null);
+        Type type = new TypeToken<List<Nicname>>() {}.getType();
+        nicnameList = gson.fromJson(json, type);
 
+        if(nicnameList == null) {
+            nicnameList = new ArrayList<>();
+        }
     }
 
     // ItemTouchHelper : RecyclerView에서 삭제를 위한 스와이프 및 드래그 앤 드롭을 지원하는 유틸리티 클래스
@@ -186,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
-            nicnameList.remove(position);
+            adapter.nicnameList.remove(position);
             adapter.notifyItemRemoved(position);
         }
     };
