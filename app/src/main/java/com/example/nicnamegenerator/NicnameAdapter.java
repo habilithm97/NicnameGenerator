@@ -1,9 +1,5 @@
 package com.example.nicnamegenerator;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +15,13 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
 
     List<Nicname> nicnameList = new ArrayList<>();
 
-    /*
-    public NicnameAdapter(List<Nicname> nicnameList) {
-        this.nicnameList = nicnameList;
-    } */
-
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv;
+        TextView nicnameTv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tv = itemView.findViewById(R.id.tv);
+            nicnameTv = itemView.findViewById(R.id.nicnameTv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -41,17 +32,17 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
         }
 
         public void setItem(Nicname item) {
-            tv.setText(item.getStr());
+            nicnameTv.setText(item.getStr());
         }
     }
 
     /*
     private void setMultipleSelection(int adapterPosition) { // 다중 선택 기능
         // 반대의 값을 넣어줌
-        if(mNicnameList.get(adapterPosition).isSelected()) {
-            mNicnameList.get(adapterPosition).setSelected(false);
+        if(nicnameList.get(adapterPosition).isSelected()) {
+            nicnameList.get(adapterPosition).setSelected(false);
         } else {
-            mNicnameList.get(adapterPosition).setSelected(true);
+            nicnameList.get(adapterPosition).setSelected(true);
         }
         notifyDataSetChanged();
     } */
@@ -78,10 +69,12 @@ public class NicnameAdapter extends RecyclerView.Adapter<NicnameAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+        /*
         if(nicnameList != null) {
             return nicnameList.size();
         }
-        return 0;
+        return 0; */
+        return nicnameList.size();
     }
 
     public void addItem(Nicname item) {

@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,39 +24,33 @@ import android.widget.Toast;
 import com.github.kimkevin.hangulparser.HangulParser;
 import com.github.kimkevin.hangulparser.HangulParserException;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    final static String[] CHO = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"}; // 19개
-    final static String[] JOONG = {"ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"}; // 21개
-    final static String[] JONG = {"", "ㄱ", "", "ㄲ", "", "ㄳ", "", "ㄴ", "", "ㄵ", "", "ㄶ", "", "ㄷ", "", "ㄹ", "", "ㄺ", "", "ㄻ", "", "ㄼ", "", "ㄽ",
+    private final static String[] CHO = {"ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"}; // 19개
+    private final static String[] JOONG = {"ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"}; // 21개
+    private final static String[] JONG = {"", "ㄱ", "", "ㄲ", "", "ㄳ", "", "ㄴ", "", "ㄵ", "", "ㄶ", "", "ㄷ", "", "ㄹ", "", "ㄺ", "", "ㄻ", "", "ㄼ", "", "ㄽ",
             "", "ㄾ", "", "ㄿ", "", "ㅀ", "", "ㅁ", "", "ㅂ", "", "ㅄ", "", "ㅅ", "", "ㅆ", "", "ㅇ", "", "ㅈ", "", "ㅊ", "", "ㅋ", "", "ㅌ", "", "ㅍ", "", "ㅎ"}; // 54개(절반은 공백)
 
-    Random choRandom = new Random();
-    Random joongRandom = new Random();
-    Random jongRandom = new Random();
+    private Random choRandom = new Random();
+    private Random joongRandom = new Random();
+    private Random jongRandom = new Random();
 
-    Random choRandom1 = new Random();
-    Random joongRandom1 = new Random();
-    Random jongRandom1 = new Random();
+    private Random choRandom1 = new Random();
+    private Random joongRandom1 = new Random();
+    private Random jongRandom1 = new Random();
 
     //List<Nicname> nicnameList;
-    NicnameAdapter adapter;
-    TextView resultTv;
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private NicnameAdapter adapter;
+    private TextView resultTv;
 
-    boolean isSelected = false;
-
-    static Toast toast;
-
-    //int size;
+    private static Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
 
-    public void initView() {
+    private void initView() {
         Button saveBtn = (Button)findViewById(R.id.saveBtn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static void showToast(Context context, String msg) {
+    private void showToast(Context context, String msg) {
         if(toast == null) {
             toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         } else { // 기존에 토스트 객체가 있다면 추가 생성하지 않음
@@ -115,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void generateNicname() {
+    private void generateNicname() {
         resultTv.setText(null);
         assembleRandomJamo();
     }
 
-    public void assembleRandomJamo() {
+    private void assembleRandomJamo() {
         try {
             List<String> jamoList = HangulParser.disassemble("분리");
             jamoList.clear();
@@ -149,11 +141,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void saveNicname() {
+    private void saveNicname() {
         String str = resultTv.getText().toString();
-        adapter.addItem(new Nicname(str, isSelected));
+        adapter.addItem(new Nicname(str));
         adapter.notifyDataSetChanged();
-
         //size = adapter.nicnameList.size();
         //Toast.makeText(getApplicationContext(), "리스트 크기 : " + size, Toast.LENGTH_SHORT).show();
     }
@@ -224,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showDeleteDialog() {
+    private void showDeleteDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("전체 삭제");
         builder.setMessage("전체 삭제하시겠습니까 ? ");
@@ -245,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void deleteAll() {
+    private void deleteAll() {
         adapter.nicnameList.clear();
         adapter.notifyDataSetChanged();
     }
